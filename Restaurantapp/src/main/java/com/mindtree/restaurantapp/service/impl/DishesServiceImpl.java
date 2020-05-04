@@ -11,6 +11,7 @@ import com.mindtree.restaurantapp.exception.service.ShopNotFoundException;
 import com.mindtree.restaurantapp.repository.DishesRepository;
 import com.mindtree.restaurantapp.repository.ShopRepository;
 import com.mindtree.restaurantapp.service.DishesService;
+import com.mindtree.restaurantapp.service.FuncInterface;
 
 @Service
 public class DishesServiceImpl implements DishesService {
@@ -59,11 +60,13 @@ public class DishesServiceImpl implements DishesService {
 	public List<Dishes> getAllDishesByShop(int shopId, String type) throws RestaurantAppServiceexception {
 		shopRepository.findById(shopId).orElseThrow(() -> new ShopNotFoundException("No Such Shop Exception"));
 		List<Dishes> dishes = dishesRepository.findAll();
-		List<Dishes> dishes1 = dishes.stream().filter(d -> d.getShops().getShopId() == shopId)
+		FuncInterface object= (dishesList)->{
+		List<Dishes> dishes1 = dishesList.stream().filter(d -> d.getShops().getShopId() == shopId)
 				.filter(d -> d.getType().compareTo(type) == 0).collect(Collectors.toList());
 		dishes1.stream().findAny().orElseThrow(() -> new NoDishesInTheshopException(
 				"No Dishes in the shop or No Dishes in the given type in the shop"));
-		return dishes1;
+		return dishes1;};
+		return object.getDishesByShop(dishes);
 	}
 
 }

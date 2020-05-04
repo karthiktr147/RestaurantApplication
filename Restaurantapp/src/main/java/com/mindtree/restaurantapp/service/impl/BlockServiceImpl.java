@@ -29,7 +29,6 @@ public class BlockServiceImpl implements BlockService {
 		block1.setBlockName(block.getBlockName());
 		return blockRepository.save(block1);
 	}
-
 	public String writeExcelBlock(Block block,String path) throws RestaurantAppServiceexception, IOException {
 		int rowIndex = 0;
 		Workbook workbook = new XSSFWorkbook();
@@ -71,5 +70,4 @@ public class BlockServiceImpl implements BlockService {
 		fis.close();
 		return block2;
 	}
-
 }
